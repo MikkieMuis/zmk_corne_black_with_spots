@@ -1,0 +1,13 @@
+build/
+build-zephyr/
+*.bin
+*.hex
+*.uf2
+*.log
+
+# OS/editor noise
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/

@@ -15,11 +15,11 @@ jobs:
       matrix:
         include:
           - board: "nice_nano_v2"
-            shield: "corne_choc_pro_left"
-            output: "corne_choc_pro_left-nice_nano_v2"
+            shield: "corne_left"
+            output: "corne_left-nice_nano_v2"
           - board: "nice_nano_v2"
-            shield: "corne_choc_pro_right"
-            output: "corne_choc_pro_right-nice_nano_v2"
+            shield: "corne_right"
+            output: "corne_right-nice_nano_v2"
 
     steps:
       - name: Checkout config

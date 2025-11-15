@@ -1,38 +1,75 @@
-# This file generates the GitHub Actions matrix.
-# For simple board + shield combinations, add them to the top level board and
-# shield arrays, for more control, add individual board + shield combinations
-# to the `include` property. You can also use the `cmake-args` property to
-# pass flags to the build command, `snippet` to add a Zephyr snippet, and
-# `artifact-name` to assign a name to distinguish build outputs from each other:
-#
----
-include:
-  - board: corne_choc_pro_left
-    snippet: studio-rpc-usb-uart
-    shield: nice_view
-    cmake-args: -DCONFIG_ZMK_STUDIO=y
-  - board: corne_choc_pro_right
-    shield: nice_view
-    snippet: studio-rpc-usb-uart
+name: Build ZMK firmware
 
-  - board: corne_choc_pro_left
-    shield: settings_reset
-    snippet: studio-rpc-usb-uart
-  - board: corne_choc_pro_right
-    shield: settings_reset
-    snippet: studio-rpc-usb-uart
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
-  - board: piantor_pro_bt_left
-    snippet: studio-rpc-usb-uart
-    shield: nice_view
-    cmake-args: -DCONFIG_ZMK_STUDIO=y
-  - board: piantor_pro_bt_right
-    shield: nice_view
-    snippet: studio-rpc-usb-uart
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-  - board: piantor_pro_bt_left
-    shield: settings_reset
-    snippet: studio-rpc-usb-uart
-  - board: piantor_pro_bt_right
-    shield: settings_reset
-    snippet: studio-rpc-usb-uart
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - board: "nice_nano_v2"
+            shield: "corne_choc_pro_left"
+            output: "corne_choc_pro_left-nice_nano_v2"
+          - board: "nice_nano_v2"
+            shield: "corne_choc_pro_right"
+            output: "corne_choc_pro_right-nice_nano_v2"
+
+    steps:
+      - name: Checkout config
+        uses: actions/checkout@v4
+        with:
+          path: config
+
+      - name: Checkout ZMK
+        uses: actions/checkout@v4
+        with:
+          repository: zmkfirmware/zmk
+          path: zmk
+
+      - name: Install dependencies
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install west and Zephyr dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install west
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake ninja-build gperf ccache dfu-util \
+            device-tree-compiler wget \
+            python3-dev python3-pip python3-setuptools python3-tk python3-wheel \
+            xz-utils file make gcc g++ unzip
+
+      - name: Initialize west and Zephyr
+        working-directory: zmk
+        run: |
+          west init -l app
+          west update
+          west zephyr-export
+
+      - name: Link config into ZMK app
+        run: |
+          ln -s "${GITHUB_WORKSPACE}/config" "${GITHUB_WORKSPACE}/zmk/app/config"
+
+      - name: Build (${{ matrix.output }})
+        working-directory: zmk/app
+        run: |
+          west build -p -b ${{ matrix.board }} -- -DSHIELD=${{ matrix.shield }}
+
+      - name: Upload firmware artifact (${{ matrix.output }})
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.output }}
+          path: |
+            zmk/app/build/zephyr/zmk.uf2
+            zmk/app/build/zephyr/zmk.hex
+        if: always()

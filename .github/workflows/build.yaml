@@ -90,5 +90,5 @@ jobs:
         with:
           name: ${{ matrix.output }}
           path: |
-            build/zephyr/zmk.uf2
-            build/zephyr/zmk.hex
+            zmk/app/build/zephyr/zmk.uf2
+            zmk/app/build/zephyr/zmk.hex

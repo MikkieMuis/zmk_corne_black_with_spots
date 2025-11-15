@@ -59,15 +59,15 @@
             bindings = <
 &kp TAB     &kp Q           &kp W           &kp E        &kp R             &kp T       &kp C_MUTE    &kp PRINTSCREEN  &kp Y            &kp U              &kp I        &kp O        &kp P        &kp BSPC
 &kp DOLLAR  &mt LEFT_ALT A  &mt LEFT_GUI S  &mt LCTRL D  &mt LEFT_SHIFT F  &kp G       &kp CAPSLOCK  &caps_word       &mt RIGHT_ALT H  &mt RIGHT_SHIFT J  &mt RCTRL K  &mt RMETA L  &kp SEMI     &kp DELETE
-&kp STAR    &lt 4 Z         &lt 3 X         &lt 2 C      &lt 1 V           &kp B                                      &kp N            &lt 1 J            &lt 2 COMMA  &lt 3 DOT    &lt 4 SLASH  &kp UNDER
+&kp STAR    &lt 4 Z         &lt 1 X         &lt 2 C      &lt 3 V           &kp B                                      &kp N            &lt 3 J            &lt 2 COMMA  &lt 1 DOT    &lt 4 SLASH  &kp UNDER
                                             &kp INS      &kp SPACE         &kp ESCAPE                                 &kp RET          &kp SPACE          &kp INS
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN &inc_dec_kp C_PREV C_NEXT &inc_dec_kp C_BRI_DN C_BRI_UP>;
         };
 
-        Numeric {
-            display-name = "NUMBER";
+        DIV-NUM {
+            display-name = "DIV NUM";
 
             // -----------------------------------------------------------------------------------------
             // |  TAB |  1  |  2  |  3  |  4  |  5    |  LCTRL | RCTRL |  6  |  7  |  8  |  9  |  0  | BSPC |
@@ -76,10 +76,10 @@
             //                    | GUI |     | SPC   |        | ENT   |     | ALT |
 
             bindings = <
-&kp TAB    &kp N1        &kp N2           &kp N3        &kp N4        &kp N5          &kp LCTRL  &kp RCTRL  &kp N6    &kp N7    &kp N8     &kp N9     &kp N0  &kp BSPC
-&kp LCTRL  &bt BT_SEL 0  &bt BT_SEL 1     &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &kp LALT   &kp RALT   &kp LEFT  &kp DOWN  &kp UP     &kp RIGHT  &trans  &trans
-&kp LSHFT  &bt BT_CLR    &rgb_ug RGB_TOG  &sys_reset    &bootloader   &studio_unlock                        &trans    &trans    &trans     &trans     &trans  &trans
-                                          &kp LGUI      &trans        &kp SPACE                             &kp LGUI  &trans    &kp SPACE
+&trans  &trans        &trans           &trans        &trans        &trans          &kp PAGE_UP    &kp HOME  &kp PERCENT  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp N0    &kp BSPC
+&trans  &bt BT_SEL 0  &bt BT_SEL 1     &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &kp PAGE_DOWN  &kp RALT  &kp SLASH    &kp NUMBER_4  &kp N5        &kp NUMBER_6  &kp PLUS  &kp STAR
+&trans  &bt BT_CLR    &rgb_ug RGB_TOG  &sys_reset    &bootloader   &studio_unlock                           &kp EQUAL    &kp N7        &kp N8        &kp N9        &kp DOT   &kp MINUS
+                                       &trans        &trans        &trans                                   &trans       &trans        &trans
             >;
         };
 
@@ -100,7 +100,7 @@
             >;
         };
 
-        DIV {
+        FUNCTION {
             display-name = "Div + Num";
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
@@ -110,7 +110,7 @@
             >;
         };
 
-        Mouse {
+        MOUSE {
             display-name = "EXTRA 2";
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans

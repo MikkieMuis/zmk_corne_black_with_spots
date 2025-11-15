@@ -46,7 +46,7 @@ jobs:
       - name: Install base dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install west
+          pip install west pyelftools
           sudo apt-get update
           sudo apt-get install -y \
             cmake ninja-build gperf ccache dfu-util \
@@ -60,7 +60,6 @@ jobs:
           sudo mkdir -p ${ZEPHYR_SDK_INSTALL_DIR}
           sudo tar -xJf zephyr-sdk-${ZEPHYR_SDK_VERSION}_linux-x86_64.tar.xz -C ${ZEPHYR_SDK_INSTALL_DIR} --strip-components=1
           rm zephyr-sdk-${ZEPHYR_SDK_VERSION}_linux-x86_64.tar.xz
-          # Register toolchains for all architectures (fast enough on CI)
           ${ZEPHYR_SDK_INSTALL_DIR}/setup.sh -t all -c
 
       - name: Initialize west and Zephyr
